@@ -1,0 +1,41 @@
+# Docker Compose file Reference (https://docs.docker.com/compose/compose-file/)
+
+version: "3"
+
+services:
+  mysql:
+    container_name: mysql
+    image: mysql
+    ports:
+      - "3306:3306"
+    restart: always
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - backend
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    healthcheck:
+      test: '/usr/bin/mysql --user=root --password=123456 --execute "CREATE DATABASE IF NOT EXISTS mydb;"'
+  simple-spring:
+    container_name: simple-spring
+    image: demo
+    ports:
+      - "8080:8080"
+    restart: on-failure
+    depends_on:
+      - mysql
+    environment:
+      AUTHOR: hunghv2
+    networks:
+      - backend
+  nginx:
+    image: nginx:alpine
+    ports:
+      - 1234:80
+    networks:
+      - backend
+volumes:
+  mysql_data:
+networks:
+  backend:
