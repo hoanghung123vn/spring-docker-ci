@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/admin/users")
+@RequestMapping(path = "/api/v1/users")
 public class UserController {
     private UserRepository userRepository;
     @Autowired
